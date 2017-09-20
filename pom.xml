@@ -5,7 +5,7 @@
 
 	<groupId>nl.knmi.adaguc.tools</groupId>
 	<artifactId>adaguc-services-tools</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>adaguc-services-tools</name>
@@ -62,6 +62,12 @@
 			<artifactId>catalina</artifactId>
 			<version>6.0.16</version>
 			<scope>provided</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>2.5.6</version>
 		</dependency>
 
 
