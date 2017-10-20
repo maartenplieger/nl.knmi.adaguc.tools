@@ -5,7 +5,7 @@
 
 	<groupId>nl.knmi.adaguc.tools</groupId>
 	<artifactId>adaguc-services-tools</artifactId>
-	<version>1.0.2</version>
+	<version>1.0.4</version>
 	<packaging>jar</packaging>
 
 	<name>adaguc-services-tools</name>
@@ -70,6 +70,12 @@
 			<version>2.5.6</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.2</version>
+		</dependency>
 
 	</dependencies>
 
