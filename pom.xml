@@ -5,7 +5,7 @@
 
 	<groupId>nl.knmi.adaguc.tools</groupId>
 	<artifactId>adaguc-services-tools</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<packaging>jar</packaging>
 
 	<name>adaguc-services-tools</name>
