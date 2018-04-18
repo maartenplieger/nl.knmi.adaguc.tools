@@ -63,6 +63,9 @@ public class JSONResponse {
 	public String getMimeType() {
 		return mimetype;
 	}
+	public void setMimeType(String mimetype) {
+		this.mimetype = mimetype;
+	}
 	public void setJSONP(String jsonp) {
 		this.jsonp = jsonp;
 
@@ -74,7 +77,7 @@ public class JSONResponse {
 
 	private String userId = null;
 	private String message = "";
-	private String mimetype = "application/json;charset=UTF-8";
+	private String mimetype = "application/json; charset=UTF-8";
 	private String jsonp = null;
 	private int statusCode = 200;
 	private String redirectURL = null;
@@ -165,7 +168,9 @@ public class JSONResponse {
 	}
 
 	public void print(HttpServletResponse response) throws IOException{
-		response.setContentType(getMimeType());
+		if (getMimeType() != null) {
+			response.setContentType(getMimeType());
+		}
 //		Debug.println("statuscode = " + statusCode);
 		response.setStatus(statusCode);
 		byte[] msg = getMessage().getBytes();
