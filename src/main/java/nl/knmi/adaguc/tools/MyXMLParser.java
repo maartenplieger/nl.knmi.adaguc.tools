@@ -27,6 +27,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import org.apache.commons.lang.StringEscapeUtils;
 
 
 public class MyXMLParser {
@@ -294,7 +295,7 @@ public class MyXMLParser {
 						for(int a=0;a<fstNode.getAttributes().getLength();a++){
 							XMLAttribute attr=new XMLAttribute();
 							attr.name=fstNode.getAttributes().item(a).getNodeName();
-							attr.value=fstNode.getAttributes().item(a).getNodeValue();
+							attr.value=StringEscapeUtils.escapeJava(fstNode.getAttributes().item(a).getNodeValue());
 							child.attributes.add(attr);
 						}
 					}
