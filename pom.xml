@@ -3,9 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.github.maartenplieger</groupId>
-	<artifactId>nl.knmi.adaguc.tools</artifactId>
-	<version>1.0.5</version>
+	<groupId>nl.knmi.adaguc.tools</groupId>
+	<artifactId>adaguc-services-tools</artifactId>
+	<version>1.0.6</version>
+
 	<packaging>jar</packaging>
 
 	<name>nl.knmi.adaguc.tools</name>
