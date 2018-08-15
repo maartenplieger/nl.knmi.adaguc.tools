@@ -401,7 +401,6 @@ public class Tools {
 	 */
 
 	public static String readResource(String name) {
-
 		StringBuilder result = new StringBuilder("");
 		ClassPathResource resource = new ClassPathResource(name);
 
@@ -411,6 +410,9 @@ public class Tools {
 			String line;
 
 			while ((line = bufferedReader.readLine()) != null) {
+				if(result.length() > 0) {
+					result.append("\n");
+				}
 				result.append(line);
 			}
 			inputStream.close();
