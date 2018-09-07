@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 import java.util.SortedSet;
 
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -249,6 +250,38 @@ public class HTTPTools {
 		return response.toString();
 	}
 
+	public static RequestConfig requestConfigWithTimeout(int timeoutInMilliseconds) {
+		return RequestConfig.copy(RequestConfig.DEFAULT)
+				.setSocketTimeout(timeoutInMilliseconds)
+				.setConnectTimeout(timeoutInMilliseconds)
+				.setConnectionRequestTimeout(timeoutInMilliseconds)
+				.build();
+	}
+
+	public static String makeHTTPGetRequestWithTimeOut(String url, int timeOut) throws UnsupportedOperationException, IOException {
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+
+		HttpGet httpGet = new HttpGet(url);
+		httpGet.setConfig(requestConfigWithTimeout(timeOut));
+		CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
+
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				httpResponse.getEntity().getContent()));
+
+		String inputLine;
+		StringBuffer response = new StringBuffer();
+
+		while ((inputLine = reader.readLine()) != null) {
+			response.append(inputLine);
+		}
+		reader.close();
+
+		httpClient.close();
+
+		return response.toString();
+	}
+
+
 	public static String makeHTTPGetRequestWithHeaders(String userInfoEndpoint,
 			KVPKey key) throws ClientProtocolException, IOException {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -306,6 +339,28 @@ public class HTTPTools {
 
 	public static void removeCookie(HttpServletResponse response, String name) {
 		setCookieValue(response, name, null, 0);
+	}
+
+	public static KVPKey parseQueryString(String url) {
+		KVPKey kvpKey = new KVPKey();
+		String urlParts[] = url.split("\\?");
+		String queryString = urlParts[urlParts.length - 1];
+		String[] kvpparts = queryString.split("&");
+		for (int j = 0; j < kvpparts.length; j++) {
+			int equalIndex = kvpparts[j].indexOf("=");
+			if(equalIndex > 0){
+				String key = kvpparts[j].substring(0,equalIndex);
+				String value = kvpparts[j].substring(equalIndex+1);
+				String valueChecked;
+				try {
+					valueChecked = validateInputTokens(value);
+					kvpKey.addKVP(key,valueChecked);
+				} catch (Exception e) {
+					kvpKey.addKVP(key,e.getMessage());
+				}
+			}
+		}
+		return kvpKey;
 	}
 
 }
