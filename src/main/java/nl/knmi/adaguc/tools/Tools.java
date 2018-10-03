@@ -400,25 +400,22 @@ public class Tools {
 	 * @throws Exception
 	 */
 
-	public static String readResource(String name) {
+	public static String readResource(String name) throws IOException {
 		StringBuilder result = new StringBuilder("");
 		ClassPathResource resource = new ClassPathResource(name);
 
-		try (InputStream inputStream = resource.getInputStream()) {
+		InputStream inputStream = resource.getInputStream();
 
-			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-			String line;
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+		String line;
 
-			while ((line = bufferedReader.readLine()) != null) {
-				if(result.length() > 0) {
-					result.append("\n");
-				}
-				result.append(line);
+		while ((line = bufferedReader.readLine()) != null) {
+			if(result.length() > 0) {
+				result.append("\n");
 			}
-			inputStream.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+			result.append(line);
 		}
+		inputStream.close();
 		return result.toString();
 	}
 }
