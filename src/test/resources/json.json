@@ -1,0 +1,41 @@
+{
+  "wps:ExecuteResponse":{
+    "wps:Status":{
+      "attr":{
+        "creationTime":"2018-10-19T11:31:16Z"
+      },
+      "wps:ProcessAccepted":{
+        "attr":{
+          "percentCompleted":"0"
+        },
+        "value":"PyWPS Process sleep accepted"
+      }
+    },
+    "wps:Process":{
+      "ows:Identifier":{
+        "value":"sleep"
+      },
+      "ows:Title":{
+        "value":"Sleep Process"
+      },
+      "ows:Abstract":{
+        "value":"Testing a long running process, in the sleep.This process will sleep for a given delay or 10 seconds if not a valid value."
+      },
+      "attr":{
+        "wps:processVersion":"1.0"
+      }
+    },
+    "attr":{
+      "xml:lang":"en-US",
+      "service":"WPS",
+      "xmlns:wps":"http:\/\/www.opengis.net\/wps\/1.0.0",
+      "xmlns:ows":"http:\/\/www.opengis.net\/ows\/1.1",
+      "xmlns:xlink":"http:\/\/www.w3.org\/1999\/xlink",
+      "xsi:schemaLocation":"http:\/\/www.opengis.net\/wps\/1.0.0 ..\/wpsExecute_response.xsd",
+      "xmlns:xsi":"http:\/\/www.w3.org\/2001\/XMLSchema-instance",
+      "serviceInstance":"http:\/\/localhost:5000\/wps?request=GetCapabilities&service=WPS",
+      "version":"1.0.0",
+      "statusLocation":"http:\/\/portal.c3s-magic.eu\/copernicus-wps\/outputs\/7de6ccce-d392-11e8-a5ec-0242ac130002.xml"
+    }
+  }
+}

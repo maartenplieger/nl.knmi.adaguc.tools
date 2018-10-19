@@ -13,12 +13,15 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -60,7 +63,7 @@ public class MyXMLParser {
 			this();
 			this.name=name;
 		}
-		
+
 		public String getValue(){
 			return value;
 		}
@@ -103,18 +106,18 @@ public class MyXMLParser {
 		public void add(XMLElement el) {
 			this.xmlElements.add(el);
 		}
-		
+
 		public void setAttr(String attr, String value) {
 			XMLAttribute at=new XMLAttribute();
 			at.name=attr;
 			at.value=value;
 			this.attributes.add(at);
 		}
-		
+
 		public void setValue(String value) {
 			this.value=value;
 		}
-		
+
 		/**
 		 * Parses document
 		 * @param document
@@ -278,6 +281,45 @@ public class MyXMLParser {
 			Debug.println("Ready");
 		}
 
+
+		private void _parseJSON(JSONObject jsonObject, Vector<XMLElement> xmlElements, XMLElement child) throws Exception {
+			JSONArray keys = jsonObject.names ();
+			for (int i = 0; i < keys.length (); ++i) {
+				String key = keys.getString(i);
+				Object obj = jsonObject.get(key);
+				if (obj instanceof JSONObject) {
+					JSONObject subJsonObject = (JSONObject)(obj);
+					if (key.equals("attr")) {
+						JSONArray attrKeys = subJsonObject.names ();
+						for (int a = 0; a < attrKeys.length (); ++a) {
+							String attrKey = attrKeys.getString(a);
+							String attrValue = subJsonObject.getString(attrKey);
+							XMLAttribute attr=new XMLAttribute();
+							attr.name=attrKey;
+							attr.value=attrValue;
+							child.attributes.add(attr);
+						}
+					} else {
+						XMLElement newChild = new XMLElement();
+						xmlElements.add(newChild);
+						newChild.name = key;
+						_parseJSON(subJsonObject, newChild.xmlElements, newChild);
+					}
+				} else {
+					if (!obj.getClass().getName().equals("java.lang.String")) {
+						nl.knmi.adaguc.tools.Debug.errprintln("JSONObject is not a string");
+						throw new Exception("JSONObject is not a string");
+					}
+					if (key.equals("value")) {
+						child.value = obj.toString();
+					}
+				}
+			}
+		}
+		public void parse (JSONObject jsonObject) throws Exception {
+			_parseJSON(jsonObject, xmlElements, null);
+		}
+
 		/** 
 		 * Parses to our XMLElement XMLAttribute tree
 		 * @param nodeLst
@@ -313,7 +355,7 @@ public class MyXMLParser {
 				}
 			}
 		}
-		
+
 		public Vector<XMLElement> getList(String s) {
 			Vector<XMLElement> v = new Vector<XMLElement>();
 			for(int j=0;j<xmlElements.size();j++){
@@ -339,7 +381,7 @@ public class MyXMLParser {
 			for(int i=0;i<depth;i++)data+="  ";
 			data+="<"+el.name;
 			for(int j=0;j<el.getAttributes().size();j++){
-				data+=" "+el.getAttributes().get(j).name+"=\""+el.getAttributes().get(j).value+"\"";
+				data+=" "+el.getAttributes().get(j).name+"=\""+StringEscapeUtils.escapeXml(el.getAttributes().get(j).value)+"\"";
 			}
 			data+=">\n";
 			for(int j=0;j<el.xmlElements.size();j++){
@@ -572,7 +614,7 @@ public class MyXMLParser {
 					String[] results = new String[b.size()];
 					for(int i=0;i<b.size();i++){
 						String value = b.get(i).getValue();
-						
+
 						results[i] = value;
 					}
 					return results;
