@@ -284,6 +284,7 @@ public class MyXMLParser {
 
 		private void _parseJSON(JSONObject jsonObject, Vector<XMLElement> xmlElements, XMLElement child) throws Exception {
 			JSONArray keys = jsonObject.names ();
+			if (keys == null) return;
 			for (int i = 0; i < keys.length (); ++i) {
 				String key = keys.getString(i);
 				Object obj = jsonObject.get(key);
@@ -305,18 +306,36 @@ public class MyXMLParser {
 						newChild.name = key;
 						_parseJSON(subJsonObject, newChild.xmlElements, newChild);
 					}
-				} else {
+				} else if (obj instanceof JSONArray) {
+					JSONArray array = (JSONArray) obj;
+					for(int j=0;j<array.length();j++){
+						XMLElement newChild = new XMLElement();
+						xmlElements.add(newChild);
+						newChild.name = key;
+						_parseJSON(array.getJSONObject(j), newChild.xmlElements, newChild);
+					}
+				}else {
 					if (!obj.getClass().getName().equals("java.lang.String")) {
-						nl.knmi.adaguc.tools.Debug.errprintln("JSONObject is not a string");
+						nl.knmi.adaguc.tools.Debug.errprintln("JSONObject is not a string: "+ key + "[" + obj.getClass().getName() + "]");
 						throw new Exception("JSONObject is not a string");
 					}
-					if (key.equals("value")) {
-						child.value = obj.toString();
+					if (obj.getClass().getName().equals("java.lang.String")) {
+						if (key.equals("value")) {
+							child.value = obj.toString();
+						}
+					}
+					if (obj.getClass().getName().equals("java.lang.JSONArray")) {
+						if (key.equals("value")) {
+							child.value = obj.toString();
+						}
 					}
 				}
 			}
 		}
 		public void parse (JSONObject jsonObject) throws Exception {
+			if (jsonObject == null) {
+				throw new Exception ("Unable to parse empty jsonobject (is null)");
+			}
 			_parseJSON(jsonObject, xmlElements, null);
 		}
 

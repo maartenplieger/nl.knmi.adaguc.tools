@@ -20,6 +20,7 @@ import java.util.Comparator;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.core.io.ClassPathResource;
 public class Tools {
 
@@ -334,6 +335,9 @@ public class Tools {
 		out.write(data);
 		out.close();
 		fstream.close();
+	}
+	static public void writeFile(String fileName,byte[] data) throws IOException{
+		FileUtils.writeByteArrayToFile(new File(fileName), data);
 	}
 	static public String readFile(String fileName) throws IOException{
 		StringBuffer fileData = new StringBuffer(1000);
