@@ -5,7 +5,7 @@
 
 	<groupId>nl.knmi.adaguc.tools</groupId>
 	<artifactId>adaguc-services-tools</artifactId>
-	<version>1.0.14</version>
+	<version>1.0.15</version>
 
 
 	<name>nl.knmi.adaguc.tools</name>
@@ -75,8 +75,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>4.3.18.RELEASE</version>
-		</dependency>
+			</dependency>
 
 
 		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/catalina -->
