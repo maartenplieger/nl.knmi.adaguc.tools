@@ -83,6 +83,7 @@ public class HTTPTools {
 			throws Exception {
 		//String param = request.getParameter(name);
 
+		@SuppressWarnings("unchecked")
 		Map<String, String[]> paramMap= request.getParameterMap();
 		String [] value = null;
 		for (Entry<String, String[]> entry : paramMap.entrySet()){
